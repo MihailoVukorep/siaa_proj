@@ -1,3 +1,4 @@
+import os
 import numpy as np
 
 from src.environment import CartPoleEnvironment
@@ -6,6 +7,7 @@ from src.q_learning import OptimizedQLearning
 from src.training import train_agent, test_agent
 from src.visualization import visualize_training_results, animate_cart_pole
 
+os.makedirs("result", exist_ok=True)
 
 def main():
     """Glavna funkcija za pokretanje treniranja i testiranja."""
