@@ -1,3 +1,4 @@
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
@@ -206,7 +207,23 @@ def animate_cart_pole(env, agent, discretizer, max_steps=500):
                         interval=50, blit=False, repeat=True)
     
     plt.tight_layout()
-    plt.show()
+    
+    # Dodavanje event handlera za zatvaranje prozora
+    def on_close(event):
+        plt.close('all')
+        print("Animacija zatvorena.")
+        sys.exit(0)
+    
+    fig.canvas.mpl_connect('close_event', on_close)
+    
+    try:
+        plt.show(block=True)
+    except KeyboardInterrupt:
+        plt.close('all')
+        print("Animacija prekinuta.")
+    finally:
+        # Osiguravamo da se sve matplotlib resursi oslobode
+        plt.close('all')
     
     # Čuvanje animacije (opciono)
     try:
