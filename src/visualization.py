@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
@@ -57,7 +58,7 @@ def visualize_training_results(episode_rewards, episode_lengths):
     axes[1, 1].grid(True, alpha=0.3)
     
     plt.tight_layout()
-    plt.savefig('training_results.png', dpi=300, bbox_inches='tight')
+    plt.savefig(os.path.join('result', 'training_results.png'), dpi=300, bbox_inches='tight')
     plt.show()
 
 
@@ -210,7 +211,7 @@ def animate_cart_pole(env, agent, discretizer, max_steps=500):
     
     # Čuvanje animacije (opciono)
     try:
-        anim.save('cart_pole_animation.gif', writer='pillow', fps=20)
+        anim.save(os.path.join('result', 'cart_pole_animation.gif'), writer='pillow', fps=20)
         print("Animacija sačuvana kao 'cart_pole_animation.gif'")
     except Exception as e:
         print(f"Greška pri čuvanju animacije: {e}")

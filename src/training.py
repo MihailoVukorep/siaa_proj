@@ -1,5 +1,6 @@
 import numpy as np
 import time
+import os
 from collections import deque
 
 from .environment import CartPoleEnvironment
@@ -76,7 +77,7 @@ def train_agent(episodes=3000, render_training=False):
         if steps > best_performance:
             best_performance = steps
             if steps > 500:  # Sačuvaj dobar model
-                agent.save_model(f'best_model_{steps}.pkl')
+                agent.save_model(os.path.join("result", f'best_model_{steps}.pkl'))
         
         # Progressbar i statistike
         if episode % 200 == 0:
@@ -102,7 +103,7 @@ def train_agent(episodes=3000, render_training=False):
     print(f"   - Broj naučenih stanja: {len(agent.q_table)}")
     
     # Čuvanje finalnog modela
-    agent.save_model('cart_pole_model.pkl')
+    agent.save_model(os.path.join('result', 'cart_pole_model.pkl'))
     
     return agent, env, discretizer, episode_rewards, episode_lengths
 
