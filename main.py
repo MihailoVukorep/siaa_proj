@@ -1,5 +1,6 @@
 import os
 import numpy as np
+import matplotlib.pyplot as plt
 
 from src.environment import CartPoleEnvironment
 from src.discretizer import StateDiscretizer
@@ -24,6 +25,18 @@ def main():
     
     # Testiranje agenta
     test_rewards, test_lengths = test_agent(agent, env, discretizer, episodes=10)
+
+    # Animirana simulacija
+    print("\nPokretanje animirane simulacije...")
+    try:
+        animate_cart_pole(env, agent, discretizer, max_steps=500)
+    except KeyboardInterrupt:
+        print("Simulacija prekinuta od strane korisnika.")
+    except Exception as e:
+        print(f"Greška tokom animacije: {e}")
+    finally:
+        # Osiguravamo da se svi matplotlib resursi zatvaraju
+        plt.close('all')
     
     # Animirana simulacija
     print("\nPokretanje animirane simulacije...")
