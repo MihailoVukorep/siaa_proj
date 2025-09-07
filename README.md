@@ -1,3 +1,25 @@
+# Opšti opis koda
+
+Ovaj kod implementira **reinforcement learning** rešenje za klasični **Cart-Pole** problem kontrole. Cilj je da se nauči strategija koja održava štap u uspravnom položaju na pokretnim kolicima što duže moguće.
+
+## Arhitektura:
+Kod je podeljen u **4 modularna komponenta**:
+
+1. **Environment** ([environment.py](#2-cartpoleenvironment-environmentpy)) - Fizička simulacija Cart-Pole sistema
+2. **Discretizer** ([discretizer.py](#1-statediscretizer-discretizerpy)) - Konvertor kontinuiranih stanja u diskretne
+3. **Q-Learning** ([q_learning.py](#3-optimizedqlearning-q_learningpy)) - Algoritam mašinskog učenja (Double Q-Learning)
+4. **Training** ([training.py](#4-training-pipeline-trainingpy)) - Orkestrator treniranja i testiranja
+
+## Tehnike:
+- **Double Q-Learning**: Napredna varijanta koja smanjuje overestimation
+- **Adaptivna diskretizacija**: Gušća mreža u kritičnim regionima
+- **Epsilon-greedy decay**: Balansira eksploraciju i eksploataciju
+- **Multi-component rewards**: Složena reward funkcija sa više kriterijuma
+- **Numerical stability**: Clipping i epsilon dodaci za robusnost
+
+## Rezultat:
+Trenirani agent uči da kontroliše kolica tako da štap ostane uspravno, koristeći samo informacije o poziciji, brzini, uglu i ugaonoj brzini. Agent postepeno prelazi od nasumičnih akcija ka naučenoj strategiji kroz trial-and-error proces.
+
 # Detaljna analiza Cart-Pole Q-Learning implementacije
 
 ## 1. StateDiscretizer (discretizer.py)
@@ -415,24 +437,3 @@ Organizuje ceo proces treniranja i testiranja.
 
 ---
 
-# Opšti opis koda
-
-Ovaj kod implementira **reinforcement learning** rešenje za klasični **Cart-Pole** problem kontrole. Cilj je da se nauči strategija koja održava štap u uspravnom položaju na pokretnim kolicima što duže moguće.
-
-## Arhitektura:
-Kod je podeljen u **4 modularna komponenta**:
-
-1. **Environment** - Fizička simulacija Cart-Pole sistema
-2. **Discretizer** - Konvertor kontinuiranih stanja u diskretne
-3. **Q-Learning** - Algoritam mašinskog učenja (Double Q-Learning)
-4. **Training** - Orkestrator treniranja i testiranja
-
-## Tehnike:
-- **Double Q-Learning**: Napredna varijanta koja smanjuje overestimation
-- **Adaptivna diskretizacija**: Gušća mreža u kritičnim regionima
-- **Epsilon-greedy decay**: Balansira eksploraciju i eksploataciju
-- **Multi-component rewards**: Složena reward funkcija sa više kriterijuma
-- **Numerical stability**: Clipping i epsilon dodaci za robusnost
-
-## Rezultat:
-Trenirani agent uči da kontroliše kolica tako da štap ostane uspravno, koristeći samo informacije o poziciji, brzini, uglu i ugaonoj brzini. Agent postepeno prelazi od nasumičnih akcija ka naučenoj strategiji kroz trial-and-error proces.
