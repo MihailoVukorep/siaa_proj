@@ -53,7 +53,7 @@ class CartPoleEnvironment:
         # Poboljšana formulacija za stabilnost
         temp = (force + self.m * self.l * theta_dot**2 * sin_theta) / self.total_mass
         
-        # Ugaona akceleracija
+        #! Ugaona akceleracija θ̈ (ugaono ubrzanje)
         numerator_theta = self.g * sin_theta - cos_theta * temp
         denominator_theta = self.l * (4.0/3.0 - self.m * cos_theta**2 / self.total_mass)
         
@@ -61,7 +61,7 @@ class CartPoleEnvironment:
         denominator_theta = np.clip(denominator_theta, 1e-6, None)
         f_theta = numerator_theta / denominator_theta
         
-        # Linearna akceleracija
+        #! Linearna akceleracija ẍ (translaciono-linearno ubrzanje)
         f_x = temp - self.m * self.l * f_theta * cos_theta / self.total_mass
         
         return f_x, f_theta
@@ -71,7 +71,7 @@ class CartPoleEnvironment:
         # Konvertovanje diskretne akcije u silu
         force = self.force_mag if action == 1 else -self.force_mag
         
-        # Trenutno stanje
+        #! Trenutno stanje (x-pozicija kolica, x_dot-brzina, theta-ugao, theta_dot-ugaona brzina)
         x, x_dot, theta, theta_dot = self.state
         
         # Stabilizacija sistema - manje steps za integraciju
@@ -82,6 +82,7 @@ class CartPoleEnvironment:
             # Euler diskretizacija sa pola koraka
             half_T = self.T / 2
             
+            #? računanje novih stanja
             new_x = x + half_T * x_dot
             new_x_dot = x_dot + half_T * f_x
             new_theta = theta + half_T * theta_dot
