@@ -291,7 +291,7 @@ Problem: max() uvek bira NAJVEĆU vrednost
 #### Primer problema:
 ```
 Stvarne Q-vrednosti: [1.0, 1.1, 0.9]  
-Ocene sa šumom:     [1.2, 0.9, 1.3] ← šum dodao greške
+Ocene sa šumom:      [1.2, 0.9, 1.3] ← šum dodao greške
 
 max(ocene) = 1.3 (odabrao pogrešnu akciju!)  
 max(stvarne) = 1.1 (trebao je ovu)
