@@ -465,7 +465,8 @@ python main.py --train --test --episodes 2000
 ```
 
 ```
-usage: main.py [-h] [--train] [--test] [--load LOAD] [--episodes EPISODES] [--save-path SAVE_PATH] [--test-episodes TEST_EPISODES] [--render]
+usage: main.py [-h] [--train] [--test] [--load LOAD] [--episodes EPISODES] [--save-path SAVE_PATH] [--test-episodes TEST_EPISODES] [--render] [--render_train]
+               [--render_test]
 
 Cart-Pole Q-Learning Agent
 
@@ -479,5 +480,7 @@ options:
                         Path to save the trained model (default: result/cart_pole_model.pkl)
   --test-episodes TEST_EPISODES
                         Number of test episodes (default: 10)
-  --render              Render the environment during testing
+  --render              Render the environment (train + test)
+  --render_train        Render the train environment
+  --render_test         Render the test environment
 ```
