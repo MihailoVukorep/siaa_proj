@@ -12,14 +12,14 @@ class OptimizedQLearning:
                  epsilon=1.0, epsilon_decay=0.9999, epsilon_min=0.02,
                  use_double_q=True):
         
-        self.state_space_size = state_space_size
-        self.action_space_size = action_space_size
-        self.learning_rate = learning_rate
-        self.discount_factor = discount_factor
-        self.epsilon = epsilon
-        self.epsilon_decay = epsilon_decay
-        self.epsilon_min = epsilon_min
-        self.use_double_q = use_double_q
+        self.state_space_size = state_space_size # Broj diskretnih stanja, 12^n za n dimenzija
+        self.action_space_size = action_space_size # Broj mogućih akcija (levo/desno)
+        self.learning_rate = learning_rate # Koliko brzo Q-vrednosti reaguje na novo iskustvo
+        self.discount_factor = discount_factor # Koliko agent vrednuje buduće nagrade
+        self.epsilon = epsilon # Početna vrednost epsilon za epsilon-greedy
+        self.epsilon_decay = epsilon_decay # Koliko se epsilon smanjuje nakon svake epizode
+        self.epsilon_min = epsilon_min # Minimalna vrednost epsilon, ispod koje se ne smanjuje
+        self.use_double_q = use_double_q # Da li koristi Double Q-Learning
         
         # Q-tabele
         self.q_table = {}
@@ -27,8 +27,8 @@ class OptimizedQLearning:
             self.q_table_2 = {}
         
         # Statistike
-        self.visit_counts = {}
-        self.update_counts = {}
+        self.visit_counts = {} # Broj poseta svakom stanju
+        self.update_counts = {} 
         
     def get_q_value(self, state, action, table=1):
         """Dobija Q-vrednost za stanje-akciju par."""
