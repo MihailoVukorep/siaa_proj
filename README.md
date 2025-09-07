@@ -102,7 +102,7 @@ Simulira fiziku Cart-Pole sistema sa poboljšanjima za stabilnost i realizam.
 
 #### `_get_derivatives()`:
 Implementira fizičke jednačine kretanja:
-- Koristi Lagranžovu mehaniku za izračunavanje ubrzanja
+- Koristi [Lagranžovu mehaniku](#lagranžovu-mehaniku) za izračunavanje ubrzanja
 - Dodaje epsilon (1e-6) u imenilac za numeričku stabilnost
 - Ograničava brzine da spreči eksploziju
 
@@ -120,6 +120,8 @@ Kompleksna reward funkcija sa više komponenti:
 - **Terminal penalty**: -100 za pad/izlazak
 
 ---
+
+### Lagranžovu mehaniku
 
 ### Šta je Lagranžova mehanika?
 
