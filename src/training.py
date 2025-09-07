@@ -8,35 +8,43 @@ from .discretizer import StateDiscretizer
 from .q_learning import OptimizedQLearning
 
 
-def train_agent(episodes=3000, render_training=False):
+def train_agent(episodes=3000, render_training=False, agent=None, env=None, discretizer=None):
     """
-    Poboljšano treniranje agenta.
+    Poboljšano treniranje agenta sa opcijom za prenos komponenti.
     """
     print("Pokretanje poboljšanog treniranja Q-Learning agenta...")
     
-    # Inicijalizacija okruženja
-    env = CartPoleEnvironment(T=0.01, force_mag=8.0)  # Manje sile i kraći korak
+    # Ako komponente nisu prosleđene, kreiraj ih
+    if env is None:
+        env = CartPoleEnvironment(T=0.01, force_mag=8.0)
     
-    # Poboljšana diskretizacija
-    state_bounds = [
-        (-2.4, 2.4),    # x pozicija
-        (-2.0, 2.0),    # x brzina - smanjeno
-        (-0.21, 0.21),  # theta ugao
-        (-3.0, 3.0)     # theta brzina - smanjeno
-    ]
-    discretizer = StateDiscretizer(state_bounds, n_bins_per_dim=12)  # Manje binova
+    if discretizer is None:
+        state_bounds = [
+            (-2.4, 2.4),    # x pozicija
+            (-2.0, 2.0),    # x brzina - smanjeno
+            (-0.21, 0.21),  # theta ugao
+            (-3.0, 3.0)     # theta brzina - smanjeno
+        ]
+        discretizer = StateDiscretizer(state_bounds, n_bins_per_dim=12)
     
-    # Poboljšani Q-Learning agent
-    agent = OptimizedQLearning(
-        state_space_size=12**4,
-        action_space_size=2,
-        learning_rate=0.3,
-        discount_factor=0.99,
-        epsilon=0.9,  # Manje početno istraživanje
-        epsilon_decay=0.9998,
-        epsilon_min=0.05,
-        use_double_q=True
-    )
+    if agent is None:
+        agent = OptimizedQLearning(
+            state_space_size=12**4,
+            action_space_size=2,
+            learning_rate=0.3,
+            discount_factor=0.99,
+            epsilon=0.9,
+            epsilon_decay=0.9998,
+            epsilon_min=0.05,
+            use_double_q=True
+        )
+    
+    # Print current agent status
+    print(f"Starting training with:")
+    print(f"   - Epsilon: {agent.epsilon:.3f}")
+    print(f"   - Learned states: {len(agent.q_table)}")
+    if hasattr(agent, 'q_table_2'):
+        print(f"   - Double Q-Learning enabled")
     
     # Statistike treniranja
     episode_rewards = []
@@ -70,16 +78,17 @@ def train_agent(episodes=3000, render_training=False):
         # Statistike
         episode_rewards.append(total_reward)
         episode_lengths.append(steps)
-        success_rate.append(1 if steps >= 200 else 0)  # Snižen prag
+        success_rate.append(1 if steps >= 200 else 0)
         agent.decay_epsilon()
         
-        # Praćenje najboljeg performanse
+        # Praćenje najbolje performance
         if steps > best_performance:
             best_performance = steps
             if steps > 500:  # Sačuvaj dobar model
+                os.makedirs("result", exist_ok=True)
                 agent.save_model(os.path.join("result", f'best_model_{steps}.pkl'))
         
-        # Progressbar i statistike
+        # Progress bar i statistike
         if episode % 200 == 0:
             avg_reward = np.mean(episode_rewards[-100:])
             avg_length = np.mean(episode_lengths[-100:])
@@ -96,14 +105,11 @@ def train_agent(episodes=3000, render_training=False):
     
     print(f"\nTreniranje završeno za {training_time:.2f} sekundi")
     print(f"Finalne statistike:")
-    print(f"   - Prosečna nagrada (posledjih 100): {np.mean(episode_rewards[-100:]):.2f}")
+    print(f"   - Prosečna nagrada (poslednjih 100): {np.mean(episode_rewards[-100:]):.2f}")
     print(f"   - Prosečna dužina epizode: {np.mean(episode_lengths[-100:]):.1f}")
     print(f"   - Najbolja performansa: {best_performance} koraka")
     print(f"   - Stopa uspešnosti: {np.mean(success_rate):.2%}")
     print(f"   - Broj naučenih stanja: {len(agent.q_table)}")
-    
-    # Čuvanje finalnog modela
-    agent.save_model(os.path.join('result', 'cart_pole_model.pkl'))
     
     return agent, env, discretizer, episode_rewards, episode_lengths
 
