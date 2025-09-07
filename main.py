@@ -59,7 +59,13 @@ def main():
     parser.add_argument('--test-episodes', type=int, default=10,
                        help='Number of test episodes (default: 10)')
     parser.add_argument('--render', action='store_true',
-                       help='Render the environment during testing')
+                       help='Render the environment (train + test)')
+
+    parser.add_argument('--render_train', action='store_true',
+                       help='Render the train environment')
+
+    parser.add_argument('--render_test', action='store_true',
+                       help='Render the test environment')
     
     args = parser.parse_args()
     
@@ -90,8 +96,10 @@ def main():
             episodes=args.episodes,
             agent=agent,
             env=env, 
-            discretizer=discretizer
+            discretizer=discretizer,
+            render=(args.render or args.render_train)
         )
+
         
         # Save the trained model
         print(f"Saving model to: {args.save_path}")
@@ -109,7 +117,8 @@ def main():
             agent=agent,
             env=env,
             discretizer=discretizer,
-            episodes=args.test_episodes
+            episodes=args.test_episodes,
+            render=(args.render or args.render_test)
         )
     
     # If no action specified, show help

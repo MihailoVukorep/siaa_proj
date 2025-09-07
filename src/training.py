@@ -1,14 +1,16 @@
 import numpy as np
 import time
 import os
+import matplotlib.pyplot as plt
 from collections import deque
 
 from .environment import CartPoleEnvironment
 from .discretizer import StateDiscretizer
 from .q_learning import OptimizedQLearning
+from .visualization import visualize_training_results, animate_cart_pole
 
 
-def train_agent(episodes=3000, render_training=False, agent=None, env=None, discretizer=None):
+def train_agent(episodes=3000, render=False, agent=None, env=None, discretizer=None):
     """
     Poboljšano treniranje agenta sa opcijom za prenos komponenti.
     """
@@ -110,11 +112,15 @@ def train_agent(episodes=3000, render_training=False, agent=None, env=None, disc
     print(f"   - Najbolja performansa: {best_performance} koraka")
     print(f"   - Stopa uspešnosti: {np.mean(success_rate):.2%}")
     print(f"   - Broj naučenih stanja: {len(agent.q_table)}")
+
+    if render:
+        # Vizualizacija rezultata treniranja
+        visualize_training_results(episode_rewards, episode_lengths)
     
     return agent, env, discretizer, episode_rewards, episode_lengths
 
 
-def test_agent(agent, env, discretizer, episodes=10):
+def test_agent(agent, env, discretizer, episodes=10, render=False):
     """Testira istreniranog agenta."""
     print(f"\nTestiranje agenta na {episodes} epizoda...")
     
@@ -155,5 +161,22 @@ def test_agent(agent, env, discretizer, episodes=10):
     print(f"   - Prosečna dužina: {np.mean(test_lengths):.1f} ± {np.std(test_lengths):.1f}")
     print(f"   - Najbolji rezultat: {max(test_lengths)} koraka")
     print(f"   - Stopa uspešnosti (≥200): {sum(1 for length in test_lengths if length >= 200) / len(test_lengths):.2%}")
+
+    if render:
+        # Animirana simulacija
+        print("\nPokretanje animirane simulacije...")
+        try:
+            animate_cart_pole(env, agent, discretizer, max_steps=500)
+        except KeyboardInterrupt:
+            print("Simulacija prekinuta od strane korisnika.")
+        except Exception as e:
+            print(f"Greška tokom animacije: {e}")
+        finally:
+            # Osiguravamo da se svi matplotlib resursi zatvaraju
+            plt.close('all')
+        
+        # Animirana simulacija
+        print("\nPokretanje animirane simulacije...")
+        animate_cart_pole(env, agent, discretizer, max_steps=500)
     
     return test_rewards, test_lengths
