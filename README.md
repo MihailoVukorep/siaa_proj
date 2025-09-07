@@ -441,13 +441,12 @@ Organizuje ceo proces treniranja i testiranja.
 
 ## Treniraj od nule
 ```bash
-python main.py --train                                 # treniranje od nule
-python main.py --load result/cart_pole_model.pkl --train --episodes 1000
+python main.py --train
 ```
 
 ## Treniraj sa podešenim brojom epizoda
 ```bash
-python main.py --train --episodes 5000                 # podesene epizode
+python main.py --train --episodes 5000
 ```
 
 ## Učitaj model i nastavi da treniraš
@@ -463,7 +462,6 @@ python main.py --load result/cart_pole_model.pkl --test
 ## Treniraj i odma testiraj
 ```bash
 python main.py --train --test --episodes 2000
-```
 ```
 
 ```
