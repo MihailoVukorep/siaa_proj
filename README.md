@@ -108,7 +108,7 @@ Implementira fizičke jednačine kretanja:
 
 #### `step()`:
 - **Podela koraka**: Deli vremenski korak na pola za bolju numeričku integraciju
-- **Euler metoda**: Koristi poboljšanu Euler diskretizaciju
+- **Euler metoda**: Koristi poboljšanu [Euler diskretizaciju](#euler-metoda)
 - **Ograničavanje**: Klipuje brzine u realnim granicama
 
 #### `_calculate_reward()`:
