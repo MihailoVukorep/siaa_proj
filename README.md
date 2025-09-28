@@ -48,3 +48,5 @@ options:
   --render_train        Render the train environment
   --render_test         Render the test environment
 ```
+
+## [Detaljni opis koda.](https://github.com/MihailoVukorep/siaa_proj/blob/main/README_FULL.md)
